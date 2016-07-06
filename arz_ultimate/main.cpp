@@ -84,12 +84,25 @@ long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
     return chrono::duration_cast<chrono::nanoseconds>(end_time - start_time).count();
 }
 
+void time_algorithm_many_times(int *arr, int arr_size, sort_function f_sort, long long *results, int number_of_times)
+{
+    for(int i = 0; i < number_of_times; i++) {
+        results[i] = time_algorithm_once(arr, arr_size, f_sort);
+    }
+}
+
 int main(int argc, const char * argv[]) {
-    int *arr = create_array(1000, random_array);
+    int *arr = create_array(10000, nearly_sorted);
     
-    cout << time_algorithm_once(arr, 1000, &bubble_classic) << endl;
-    cout << time_algorithm_once(arr, 1000, &bubble_classic) << endl;
-    cout << time_algorithm_once(arr, 1000, &bubble_classic) << endl;
+    long long *results = new long long[100];
+    
+    time_algorithm_many_times(arr, 10000, &bubble_classic, results, 100);
+    
+    for(int i = 0; i < 100; i++) {
+        cout << results[i] << endl;
+    }
+    
+    delete[] results;
     
     delete[] arr;
     
