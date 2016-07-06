@@ -12,7 +12,7 @@
 using namespace std;
 
 
-inline void bubble_classic(int *arr, int begin, int end)
+void bubble_classic(int *arr, int begin, int end)
 {
     for(int i = begin + 1; i < end; i++)
     {
@@ -25,7 +25,7 @@ inline void bubble_classic(int *arr, int begin, int end)
     }
 }
 
-inline void bubble_tier1(int *arr, int begin, int end)
+void bubble_tier1(int *arr, int begin, int end)
 {
     for(int i = begin + 1; i < end; i++)
     {
@@ -44,7 +44,7 @@ inline void bubble_tier1(int *arr, int begin, int end)
     }
 }
 
-inline void bubble_tier2(int *arr, int begin, int end)
+void bubble_tier2(int *arr, int begin, int end)
 {
     int last_swap = end - 1;
     
@@ -65,7 +65,7 @@ inline void bubble_tier2(int *arr, int begin, int end)
     } while(last_swap != 0);
 }
 
-inline void insertion(int *arr, int begin, int end)
+void insertion(int *arr, int begin, int end)
 {
     for(int i = begin + 1; i < end; i++) {
         
@@ -84,7 +84,7 @@ inline void insertion(int *arr, int begin, int end)
  // Если элемента в массиве нет, то возвращает индекс, куда его можно было бы вставить, не нарушая отсортированности массива
  // Если элемент больше наибольшего в массиве — end, если меньше наименьшего — -1
  */
-inline int binary_search(int *arr, int begin, int end, int target)
+int binary_search(int *arr, int begin, int end, int target)
 {
     while(begin - end < -1) {
         int mid = (begin + end) / 2;
@@ -108,7 +108,7 @@ inline int binary_search(int *arr, int begin, int end, int target)
     }
 }
 
-inline void insertion_binary(int *arr, int begin, int end)
+void insertion_binary(int *arr, int begin, int end)
 {
     for(int i = begin + 1; i < end; i++) {
         int new_position = binary_search(arr, begin, i, arr[i]);

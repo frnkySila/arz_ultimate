@@ -9,10 +9,10 @@
 #ifndef __arz_ultimate__sorting_algs__
 #define __arz_ultimate__sorting_algs__
 
-inline void bubble_classic(int *arr, int begin, int end);
-inline void bubble_tier1(int *arr, int begin, int end);
-inline void bubble_tier2(int *arr, int begin, int end);
-inline void insertion(int *arr, int begin, int end);
-inline void insertion_binary(int *arr, int begin, int end);
+void bubble_classic(int *arr, int begin, int end);
+void bubble_tier1(int *arr, int begin, int end);
+void bubble_tier2(int *arr, int begin, int end);
+void insertion(int *arr, int begin, int end);
+void insertion_binary(int *arr, int begin, int end);
 
 #endif /* defined(__arz_ultimate__sorting_algs__) */
