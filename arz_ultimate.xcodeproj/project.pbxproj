@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9F4DAAE61D2DBAC500BE1A7F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4DAAE51D2DBAC500BE1A7F /* main.cpp */; };
 		9F4DAAEE1D2DBAEA00BE1A7F /* sorting_algs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4DAAEC1D2DBAEA00BE1A7F /* sorting_algs.cpp */; };
+		9F4DAAF11D2DCAFF00BE1A7F /* stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4DAAEF1D2DCAFF00BE1A7F /* stats.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		9F4DAAE51D2DBAC500BE1A7F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9F4DAAEC1D2DBAEA00BE1A7F /* sorting_algs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sorting_algs.cpp; sourceTree = "<group>"; };
 		9F4DAAED1D2DBAEA00BE1A7F /* sorting_algs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sorting_algs.h; sourceTree = "<group>"; };
+		9F4DAAEF1D2DCAFF00BE1A7F /* stats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stats.cpp; sourceTree = "<group>"; };
+		9F4DAAF01D2DCAFF00BE1A7F /* stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stats.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 				9F4DAAE51D2DBAC500BE1A7F /* main.cpp */,
 				9F4DAAEC1D2DBAEA00BE1A7F /* sorting_algs.cpp */,
 				9F4DAAED1D2DBAEA00BE1A7F /* sorting_algs.h */,
+				9F4DAAEF1D2DCAFF00BE1A7F /* stats.cpp */,
+				9F4DAAF01D2DCAFF00BE1A7F /* stats.h */,
 			);
 			path = arz_ultimate;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F4DAAE61D2DBAC500BE1A7F /* main.cpp in Sources */,
+				9F4DAAF11D2DCAFF00BE1A7F /* stats.cpp in Sources */,
 				9F4DAAEE1D2DBAEA00BE1A7F /* sorting_algs.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

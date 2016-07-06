@@ -3,6 +3,7 @@
 //
 
 #include "sorting_algs.h"
+#include "stats.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -91,18 +92,26 @@ void time_algorithm_many_times(int *arr, int arr_size, sort_function f_sort, lon
     }
 }
 
+void time_algorithm_100_times_different_sizes(int *arr, sort_function f_sort, long long *results_table)
+{
+    for(int i = 0; i < 10; i++) {
+        int masik_size = 1000 + 1000 * i;
+        time_algorithm_many_times(arr, masik_size, f_sort, results_table + (10 * i), 10);
+    }
+}
+
 int main(int argc, const char * argv[]) {
     int *arr = create_array(10000, nearly_sorted);
     
-    long long *results = new long long[100];
+    long long *results_table = new long long[10 * 10];
     
-    time_algorithm_many_times(arr, 10000, &bubble_classic, results, 100);
+    time_algorithm_100_times_different_sizes(arr, &bubble_classic, results_table);
     
-    for(int i = 0; i < 100; i++) {
-        cout << results[i] << endl;
+    for(int i = 0; i < 10; i++) {
+        cout << array_avg(results_table + (10 * i), 10) << endl;
     }
     
-    delete[] results;
+    delete[] results_table;
     
     delete[] arr;
     
