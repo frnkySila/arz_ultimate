@@ -5,6 +5,8 @@
 #include "sorting_algs.h"
 #include "stats.h"
 
+#define NUM_OF_MEASUREMENTS 10
+
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
@@ -96,19 +98,19 @@ void time_algorithm_100_times_different_sizes(int *arr, sort_function f_sort, lo
 {
     for(int i = 0; i < 10; i++) {
         int masik_size = 1000 + 1000 * i;
-        time_algorithm_many_times(arr, masik_size, f_sort, results_table + (10 * i), 10);
+        time_algorithm_many_times(arr, masik_size, f_sort, results_table + (NUM_OF_MEASUREMENTS * i), NUM_OF_MEASUREMENTS);
     }
 }
 
 int main(int argc, const char * argv[]) {
     int *arr = create_array(10000, nearly_sorted);
     
-    long long *results_table = new long long[10 * 10];
+    long long *results_table = new long long[10 * NUM_OF_MEASUREMENTS];
     
     time_algorithm_100_times_different_sizes(arr, &bubble_classic, results_table);
     
     for(int i = 0; i < 10; i++) {
-        cout << array_avg(results_table + (10 * i), 10) << endl;
+        cout << array_avg(results_table + (NUM_OF_MEASUREMENTS * i), NUM_OF_MEASUREMENTS) << endl;
     }
     
     delete[] results_table;
