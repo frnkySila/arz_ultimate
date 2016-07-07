@@ -75,7 +75,7 @@ int *create_array(int size, sort_mode mode)
 long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
 {
     int *newArr = new int[arr_size];
-    memccpy(newArr, arr, arr_size, sizeof(int));
+    memcpy(newArr, arr, arr_size * sizeof(int));
     
     auto start_time = chrono::high_resolution_clock::now();
     
@@ -103,12 +103,12 @@ void time_algorithm_100_times_different_sizes(int *arr, sort_function f_sort, lo
     }
 }
 
-void time_algorithms(sort_function *f_sort, int num_algorithms, sort_mode mode, long long *results_table_3d)
+void time_algorithms(sort_function *fs_sort, int num_algorithms, sort_mode mode, long long *results_table_3d)
 {
     int *arr = create_array(10000, mode);
     
     for(int i = 0; i < num_algorithms; i++) {
-        time_algorithm_100_times_different_sizes(arr, &bubble_classic, results_table_3d + i * 10 * NUM_OF_MEASUREMENTS);
+        time_algorithm_100_times_different_sizes(arr, fs_sort[i], results_table_3d + i * 10 * NUM_OF_MEASUREMENTS);
     }
     
     delete[] arr;
@@ -116,13 +116,13 @@ void time_algorithms(sort_function *f_sort, int num_algorithms, sort_mode mode, 
 
 void print_table_3d(long long *results_table_3d)
 {
-    cout << setw(9) << "" << setw(10) << "bc" << setw(10) << "b1" << setw(10) << "b2" << setw(10) << "i" << setw(10) << "ib" << endl;
+    cout << setw(4) << "" << setw(11) << "bc" << setw(11) << "b1" << setw(11) << "b2" << setw(11) << "i" << setw(11) << "ib" << endl;
     
     for(int i = 0; i < 10; i++) {
-        cout << setw(8) << i + 1 << "k";
+        cout << setw(3) << i + 1 << "k";
         
         for(int j = 0; j < 5; j++) {
-            cout << setw(8) << array_avg(results_table_3d + (j * 10 * NUM_OF_MEASUREMENTS + i * NUM_OF_MEASUREMENTS), NUM_OF_MEASUREMENTS) / 1000 / 1000 << "ms";
+            cout << setw(8) << array_avg(results_table_3d + (j * 10 * NUM_OF_MEASUREMENTS + i * NUM_OF_MEASUREMENTS), NUM_OF_MEASUREMENTS) / 1000 << "mcs";
         }
         
         cout << endl;
@@ -130,13 +130,6 @@ void print_table_3d(long long *results_table_3d)
 }
 
 int main(int argc, const char * argv[]) {
-    int *pidr = create_array(10, nearly_sorted);
-    
-    for(int i = 0; i < 1000; i++) {
-        cout << pidr[i] << " ";
-    }
-    cout << endl;
-    
     sort_function algs[] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
     
     long long *results_table_3d = new long long[10 * NUM_OF_MEASUREMENTS * 5];
