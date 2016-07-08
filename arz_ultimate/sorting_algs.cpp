@@ -50,18 +50,16 @@ void bubble_tier2(int *arr, int begin, int end)
     
     do
     {
-        int new_last_swap = 0;
+        last_swap = 0;
         
         for(int j = begin; j < last_swap; j++) {
             if(arr[j] > arr[j+1])
             {
                 swap(arr[j], arr[j+1]);
                 
-                new_last_swap = j;
+                last_swap = j;
             }
         }
-        
-        last_swap = new_last_swap;
     } while(last_swap != 0);
 }
 
