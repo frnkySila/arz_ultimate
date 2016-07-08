@@ -66,22 +66,23 @@ void bubble_tier2(int *arr, int begin, int end)
 void insertion(int *arr, int begin, int end)
 {
     for(int i = begin + 1; i < end; i++) {
+        int new_position = 0;
         
-        // Possible optimization: replace swaps with assignments
-        for(int j = i; j > 0 && arr[j - 1] > arr[j]; j--) {
-            swap(arr[j - 1], arr[j]);
+        for(int j = i - 1; j >= 0; j--) {
+            if(arr[j] <= arr[i]) {
+                new_position = j + 1;
+                break;
+            }
         }
+        
+        int temp = arr[i];
+        for(int j = i; j > new_position; j--) {
+            arr[j] = arr[j - 1];
+        }
+        arr[new_position] = temp;
     }
 }
 
-/*
- // Функция бинарного поиска
- //
- // Поиск выполняется среди элементов с индексами на промежутке [begin, end) отсортированного массива
- // Возвращает индекс последнего вхождения элемента, равного target
- // Если элемента в массиве нет, то возвращает индекс, куда его можно было бы вставить, не нарушая отсортированности массива
- // Если элемент больше наибольшего в массиве — end, если меньше наименьшего — -1
- */
 int binary_search(int *arr, int begin, int end, int target)
 {
     while(begin - end < -1) {
@@ -112,8 +113,8 @@ void insertion_binary(int *arr, int begin, int end)
         int new_position = binary_search(arr, begin, i, arr[i]);
         
         int temp = arr[i];
-        for(int j = new_position; j < i; j++) {
-            arr[j + 1] = arr[j];
+        for(int j = i; j > new_position; j--) {
+            arr[j] = arr[j - 1];
         }
         arr[new_position] = temp;
     }
