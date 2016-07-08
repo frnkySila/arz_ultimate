@@ -37,22 +37,25 @@ void report_progress()
     }
 }
 
-enum sort_mode {manual_entry, random_array, nearly_sorted, reversed, few_unique};
+enum sort_mode { random_array, random_array_small, nearly_sorted, reversed, few_unique };
 
 int *create_array(int size, sort_mode mode)
 {
     int *arr = new int[size];
     
     switch (mode) {
-        case manual_entry:
-            for(int i = 0; i < size; i++) {
-                cin >> arr[i];            }
-            break;
         case random_array:
             srand((unsigned int)time(NULL));
             
             for(int i = 0; i < size; i++) {
                 arr[i] = rand();
+            }
+            break;
+        case random_array_small:
+            srand((unsigned int)time(NULL));
+            
+            for(int i = 0; i < size; i++) {
+                arr[i] = rand() % size;
             }
             break;
         case nearly_sorted: // order of N swaps
