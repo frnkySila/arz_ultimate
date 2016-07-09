@@ -131,97 +131,11 @@ void time_algorithms(sort_function *fs_sort, int num_algorithms, sort_mode mode,
     delete[] arr;
 }
 
-void output_results_console(long long *results_table_3d)
-{
-    cout << setw(4) << "" << setw(11) << "bc" << setw(11) << "b1" << setw(11) << "b2" << setw(11) << "i" << setw(11) << "ib" << endl;
-    
-    for(int i = 0; i < 10; i++) {
-        cout << setw(3) << i + 1 << "k";
-        
-        for(int j = 0; j < 5; j++) {
-            cout << setw(8) << array_avg(results_table_3d + (j * 10 * NUM_OF_MEASUREMENTS + i * NUM_OF_MEASUREMENTS), NUM_OF_MEASUREMENTS) / 1000 << "mcs";
-        }
-        
-        cout << endl;
-    }
-}
-
-void output_results_csv(string filename, string *header, int num_columns, long long *results_table_3d)
-{
-    fstream f;
-    f.open(filename, fstream::out | fstream::trunc);
-    
-    for(int i = 0; i < num_columns; i++) {
-        f << ";" << header[i];
-    }
-    f << endl;
-    
-    for(int i = 0; i < 10; i++) {
-        f << (i + 1) * 1000;
-        
-        for(int j = 0; j < num_columns; j++) {
-            f << ";" << array_avg(results_table_3d + (j * 10 * NUM_OF_MEASUREMENTS + i * NUM_OF_MEASUREMENTS), NUM_OF_MEASUREMENTS);
-        }
-        
-        f << endl;
-    }
-    
-    f.close();
-}
-
-void output_results_for_mathematica(string filename, string *header, string title, int num_columns, long long *results_table_3d)
-{
-    fstream f;
-    f.open(filename, fstream::out | fstream::trunc);
-    
-    f << "ListLinePlot[Transpose@{" << endl;
-    for(int i = 0; i < 10; i++) {
-        f << "{" << (i + 1) * 1000;
-        
-        for(int j = 0; j < num_columns; j++) {
-            f << ", " << array_avg(results_table_3d + (j * 10 * NUM_OF_MEASUREMENTS + i * NUM_OF_MEASUREMENTS), NUM_OF_MEASUREMENTS);
-        }
-        
-        f << "}";
-        if(i != 9) f << ",";
-        f << endl;
-    }
-    f << "}," << endl;
-    f << "PlotLegends->{";
-    for(int i = 0; i < num_columns; i++) {
-        f << "\"" << header[i] << "\"";
-        if(i != num_columns - 1) f << ", ";
-    }
-    f << "}," << endl;
-    f << "PlotLabel->\"Случайный массив\"" << endl;
-    f << "]" << endl;
-    
-    f.close();
-}
-
 int main(int argc, const char * argv[]) {
     sort_function algs[] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
     string names[] = { "Bubble Classic", "Bubble T1", "Bubble T2", "Insertion", "Insertion B" };
     
-    long long *results_table_3d = new long long[10 * NUM_OF_MEASUREMENTS * 5];
     
-    time_algorithms(algs, 5, random_array, results_table_3d);
-    output_results_csv("/Users/frnkymac/Code/arz/arz_ultimate/results/random_array.csv", names, 5, results_table_3d);
-    output_results_for_mathematica("/Users/frnkymac/Code/arz/arz_ultimate/results/random_array.nb", names, "Случайный массив", 5, results_table_3d);
-    
-    time_algorithms(algs, 5, nearly_sorted, results_table_3d);
-    output_results_csv("/Users/frnkymac/Code/arz/arz_ultimate/results/nearly_sorted.csv", names, 5, results_table_3d);
-    output_results_for_mathematica("/Users/frnkymac/Code/arz/arz_ultimate/results/nearly_sorted.nb", names, "Почти отсортированный", 5, results_table_3d);
-    
-    time_algorithms(algs, 5, reversed, results_table_3d);
-    output_results_csv("/Users/frnkymac/Code/arz/arz_ultimate/results/reversed.csv", names, 5, results_table_3d);
-    output_results_for_mathematica("/Users/frnkymac/Code/arz/arz_ultimate/results/reversed.nb", names, "В обратном порядке", 5, results_table_3d);
-    
-    time_algorithms(algs, 5, few_unique, results_table_3d);
-    output_results_csv("/Users/frnkymac/Code/arz/arz_ultimate/results/few_unique.csv", names, 5, results_table_3d);
-    output_results_for_mathematica("/Users/frnkymac/Code/arz/arz_ultimate/results/few_unique.nb", names, "Мало разных значений", 5, results_table_3d);
-    
-    delete[] results_table_3d;
     
     return 0;
 }
