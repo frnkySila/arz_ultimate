@@ -46,7 +46,7 @@ void bubble_tier1(int *arr, int begin, int end)
 
 void bubble_tier2(int *arr, int begin, int end)
 {
-    int last_swap = end - 1;
+    int last_swap;
     
     do
     {
