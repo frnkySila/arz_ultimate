@@ -149,6 +149,8 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
 
 void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *fs_sort, string *algorithm_names, int num_algorithms)
 {
+    time_t start_time_total = time(NULL);
+    
     int *arr = create_array(sizes[num_sizes - 1], mode);
     long long *results = new long long[num_sizes * num_algorithms];
     
@@ -157,6 +159,7 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
         
         long long *current_results = time_algorithm(arr, sizes, num_sizes, fs_sort[i]);
         
+        // TODO: Transpose this cycle
         for(int j = 0; j < num_sizes; j++) {
             results[i * num_sizes + j] = current_results[j];
         }
@@ -165,6 +168,9 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
         
         cout << "Took " << time(NULL) - start_time << "s" << endl << endl;
     }
+    
+    time_t total_time = time(NULL) - start_time_total;
+    cout << endl << "All took " << total_time / 60 << ":" << total_time % 60 << "s" << endl;
     
     ofstream f("/Users/frnkymac/Code/arz/arz_ultimate/pidr.dat", ios::trunc | ios::out);
     
