@@ -5,9 +5,7 @@
 #include "sorting_algs.h"
 #include "stats.h"
 
-#define REPORT_PROGRESS() report_progress()
-
-#define NUM_OF_MEASUREMENTS 100
+#define NUM_OF_MEASUREMENTS 10
 
 #include <iostream>
 #include <fstream>
@@ -26,15 +24,6 @@ void print_array(int *arr, int begin, int end)
         cout << arr[i] << " ";
     }
     cout << endl;
-}
-
-void report_progress()
-{
-    static int i = 0;
-    
-    if(++i % 10 == 0) {
-        cout << ".";
-    }
 }
 
 enum sort_mode { random_array, random_array_small, completely_sorted, nearly_sorted, reversed, few_unique };
