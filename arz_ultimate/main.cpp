@@ -7,7 +7,7 @@
 
 #define REPORT_PROGRESS() report_progress()
 
-#define NUM_OF_MEASUREMENTS 10
+#define NUM_OF_MEASUREMENTS 100
 
 #include <iostream>
 #include <fstream>
@@ -128,21 +128,25 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
     
     cout << "Testing on " << num_sizes << " sizes from " << sizes[0] << " to " << sizes[num_sizes - 1] << "..." << endl;
     
-    for(int i = 0; i < num_sizes; i++) {
-        double sum = 0;
-        
+    for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
+        results[i] = 0;
+    }
+    
+    for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
         cout << i + 1 << flush;
         
-        for(int j = 0; j < NUM_OF_MEASUREMENTS; j++) {
-            sum += time_algorithm_once(arr, sizes[i], f_sort);
+        for(int j = 0; j < num_sizes; j++) {
+            results[j] += time_algorithm_once(arr, sizes[j], f_sort);
             
             cout << "." << flush;
         }
-        
-        results[i] = sum / NUM_OF_MEASUREMENTS;
     }
     
     cout << endl;
+    
+    for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
+        results[i] = results[i] / NUM_OF_MEASUREMENTS;
+    }
     
     return results;
 }
@@ -159,7 +163,6 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
         
         long long *current_results = time_algorithm(arr, sizes, num_sizes, fs_sort[i]);
         
-        // TODO: Transpose this cycle
         for(int j = 0; j < num_sizes; j++) {
             results[i * num_sizes + j] = current_results[j];
         }
