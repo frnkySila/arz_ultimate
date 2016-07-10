@@ -3,7 +3,6 @@
 //
 
 #include "sorting_algs.h"
-#include "stats.h"
 
 #define NUM_OF_MEASUREMENTS 10
 
