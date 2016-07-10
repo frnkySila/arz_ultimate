@@ -7,7 +7,7 @@
 
 #define REPORT_PROGRESS() report_progress()
 
-#define NUM_OF_MEASUREMENTS 1
+#define NUM_OF_MEASUREMENTS 10
 
 #include <iostream>
 #include <fstream>
@@ -69,7 +69,7 @@ int *create_array(int size, sort_mode mode)
             
             srand((unsigned int)time(NULL));
             
-            for(int i = 0; i < size; i++) {
+            for(int i = 0; i < 2 * size; i++) {
                 int j = rand() % (size - 1);
                 swap(arr[j], arr[j + 1]);
             }
@@ -109,16 +109,16 @@ long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
     return chrono::duration_cast<chrono::nanoseconds>(end_time - start_time).count();
 }
 
-long long *time_algorithm(int *arr, int *sizes, int number_of_sizes, sort_function f_sort)
+long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_sort)
 {
-    long long *results = new long long[number_of_sizes];
+    long long *results = new long long[num_sizes];
     
-    cout << "Testing on " << number_of_sizes << " sizes from " << sizes[0] << " to " << sizes[number_of_sizes - 1] << "..." << endl;
+    cout << "Testing on " << num_sizes << " sizes from " << sizes[0] << " to " << sizes[num_sizes - 1] << "..." << endl;
     
-    for(int i = 0; i < number_of_sizes; i++) {
+    for(int i = 0; i < num_sizes; i++) {
         double sum = 0;
         
-        cout << "|" << flush;
+        cout << i + 1 << flush;
         
         for(int j = 0; j < NUM_OF_MEASUREMENTS; j++) {
             sum += time_algorithm_once(arr, sizes[i], f_sort);
@@ -134,42 +134,59 @@ long long *time_algorithm(int *arr, int *sizes, int number_of_sizes, sort_functi
     return results;
 }
 
-//void time_algorithms(sort_function *fs_sort, int num_algorithms, sort_mode mode, long long *results_table_3d)
-//{
-//    int *arr = create_array(10000, mode);
-//    
-//    for(int i = 0; i < num_algorithms; i++) {
-//        time_algorithm_100_times_different_sizes(arr, fs_sort[i], results_table_3d + i * 10 * NUM_OF_MEASUREMENTS);
-//    }
-//    
-//    delete[] arr;
-//}
-
-int main(int argc, const char * argv[]) {
-//    sort_function algs[] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
-//    string names[] = { "Bubble Classic", "Bubble T1", "Bubble T2", "Insertion", "Insertion B" };
+void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *fs_sort, string *algorithm_names, int num_algorithms)
+{
+    int *arr = create_array(sizes[num_sizes - 1], mode);
+    long long *results = new long long[num_sizes * num_algorithms];
     
-    int *arr = create_array(100000, random_array);
-    int sizes[100] = { 1000 , 2000 , 3000 , 4000 , 5000 , 6000 , 7000 , 8000 , 9000 , 10000 , 11000 , 12000 , 13000 , 14000 , 15000 , 16000 , 17000 , 18000 , 19000 , 20000 , 21000 , 22000 , 23000 , 24000 , 25000 , 26000 , 27000 , 28000 , 29000 , 30000 , 31000 , 32000 , 33000 , 34000 , 35000 , 36000 , 37000 , 38000 , 39000 , 40000 , 41000 , 42000 , 43000 , 44000 , 45000 , 46000 , 47000 , 48000 , 49000 , 50000 , 51000 , 52000 , 53000 , 54000 , 55000 , 56000 , 57000 , 58000 , 59000 , 60000 , 61000 , 62000 , 63000 , 64000 , 65000 , 66000 , 67000 , 68000 , 69000 , 70000 , 71000 , 72000 , 73000 , 74000 , 75000 , 76000 , 77000 , 78000 , 79000 , 80000 , 81000 , 82000 , 83000 , 84000 , 85000 , 86000 , 87000 , 88000 , 89000 , 90000 , 91000 , 92000 , 93000 , 94000 , 95000 , 96000 , 97000 , 98000 , 99000 , 100000 };
-    
-    time_t start_time = time(NULL);
-    
-    long long *results = time_algorithm(arr, sizes, 100, &insertion);
-    
-    cout << endl << "Took " << time(NULL) - start_time << "s" << endl;
+    for(int i = 0; i < num_algorithms; i++) {
+        time_t start_time = time(NULL);
+        
+        long long *current_results = time_algorithm(arr, sizes, num_sizes, fs_sort[i]);
+        
+        for(int j = 0; j < num_sizes; j++) {
+            results[i * num_sizes + j] = current_results[j];
+        }
+        
+        delete[] current_results;
+        
+        cout << "Took " << time(NULL) - start_time << "s" << endl << endl;
+    }
     
     ofstream f("/Users/frnkymac/Code/arz/arz_ultimate/pidr.dat", ios::trunc | ios::out);
     
-    f << "-" << " " << "bc" << endl;
+    f << "-";
     
-    for(int i = 0; i < 100; i++) {
-        f << sizes[i] << " " << results[i] / 1000.0 / 1000.0 << endl;
+    for(int i = 0; i < num_algorithms; i++) {
+        f << " " << algorithm_names[i];
+    }
+    
+    f << endl;
+    
+    for(int i = 0; i < num_sizes; i++) {
+        f << sizes[i];
+        
+        for(int j = 0; j < num_algorithms; j++) {
+            f << " " << results[j * num_sizes + i];
+        }
+        
+        f << endl;
     }
     
     f.close();
     
     delete[] results;
     delete[] arr;
+}
+
+int main(int argc, const char * argv[]) {
+    string names[5] = { "Bubble-Classic", "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
+    sort_function algs[5] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
+    
+    int sizes[10] = { 1000 , 2000 , 3000 , 4000 , 5000 , 6000 , 7000 , 8000 , 9000 , 10000 };
+    
+    time_algorithms(few_unique, sizes, 10, algs, names, 5);
+
     
     return 0;
 }
