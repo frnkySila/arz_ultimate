@@ -170,7 +170,7 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
     }
     
     time_t total_time = time(NULL) - start_time_total;
-    cout << endl << "All took " << total_time / 60 << ":" << total_time % 60 << "s" << endl;
+    cout << endl << "All took " << total_time / 60 << ":" << total_time % 60 << endl;
     
     ofstream f("/Users/frnkymac/Code/arz/arz_ultimate/pidr.dat", ios::trunc | ios::out);
     
