@@ -3,6 +3,7 @@
 //
 
 #include "sorting_algs.h"
+#include "sorting_debug.h"
 
 #define NUM_OF_MEASUREMENTS 10
 
@@ -16,14 +17,6 @@ using namespace std;
 int inner_cycles, outer_cycles, comparisons, swaps;
 
 typedef void (*sort_function)(int*, int, int);
-
-void print_array(int *arr, int begin, int end)
-{
-    for(int i = begin; i < end; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
 
 enum sort_mode { random_array, random_array_small, completely_sorted, nearly_sorted, reversed, few_unique };
 
@@ -105,8 +98,6 @@ long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
     
     delete[] newArr;
     
-    REPORT_PROGRESS();
-    
     return chrono::duration_cast<chrono::nanoseconds>(end_time - start_time).count();
 }
 
@@ -128,6 +119,8 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
             
             cout << "." << flush;
         }
+        
+        cout << " ";
     }
     
     cout << endl;
@@ -190,12 +183,12 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
 }
 
 int main(int argc, const char * argv[]) {
-    string names[5] = { "Bubble-Classic", "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
-    sort_function algs[5] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
+    string names[4] = { "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
+    sort_function algs[4] = { &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
     
     int *sizes = create_sizes_linear(25, 1000, 25000);
     
-    time_algorithms(few_unique, sizes, 25, algs, names, 5);
+    time_algorithms(random_array, sizes, 25, algs, names, 4);
 
     delete[] sizes;
     
