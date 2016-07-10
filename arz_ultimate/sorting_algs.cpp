@@ -106,7 +106,7 @@ inline int binary_search(int *arr, int begin, int end, int target)
         return end;
     }
     else /* target < arr[begin] */ {
-        return -1;
+        return begin;
     }
 }
 
