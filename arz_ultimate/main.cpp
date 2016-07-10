@@ -91,6 +91,19 @@ int *create_array(int size, sort_mode mode)
     return arr;
 }
 
+int *create_sizes_linear(int num_sizes, int min, int max)
+{
+    int *arr = new int[num_sizes];
+    
+    int difference = (max - min) / num_sizes;
+    
+    for(int i = 0; i < num_sizes; i++) {
+        arr[i] = min + difference * i;
+    }
+    
+    return arr;
+}
+
 long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
 {
     int *newArr = new int[arr_size];
@@ -183,10 +196,11 @@ int main(int argc, const char * argv[]) {
     string names[5] = { "Bubble-Classic", "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
     sort_function algs[5] = { &bubble_classic, &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
     
-    int sizes[10] = { 1000 , 2000 , 3000 , 4000 , 5000 , 6000 , 7000 , 8000 , 9000 , 10000 };
+    int *sizes = create_sizes_linear(25, 1000, 25000);
     
-    time_algorithms(few_unique, sizes, 10, algs, names, 5);
+    time_algorithms(few_unique, sizes, 25, algs, names, 5);
 
+    delete[] sizes;
     
     return 0;
 }
