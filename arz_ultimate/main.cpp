@@ -37,7 +37,7 @@ void report_progress()
     }
 }
 
-enum sort_mode { random_array, random_array_small, nearly_sorted, reversed, few_unique };
+enum sort_mode { random_array, random_array_small, completely_sorted, nearly_sorted, reversed, few_unique };
 
 int *create_array(int size, sort_mode mode)
 {
@@ -58,6 +58,10 @@ int *create_array(int size, sort_mode mode)
                 arr[i] = rand() % size;
             }
             break;
+        case completely_sorted:
+            for(int i = 0; i < size; i++) {
+                arr[i] = i;
+            }
         case nearly_sorted: // order of N swaps
             for(int i = 0; i < size; i++) {
                 arr[i] = i;
