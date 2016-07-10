@@ -86,7 +86,7 @@ void insertion(int *arr, int begin, int end)
     }
 }
 
-int binary_search(int *arr, int begin, int end, int target)
+inline int binary_search(int *arr, int begin, int end, int target)
 {
     while(begin - end < -1) {
         int mid = (begin + end) / 2;
