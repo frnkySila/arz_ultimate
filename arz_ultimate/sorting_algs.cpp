@@ -122,3 +122,21 @@ void insertion_binary(int *arr, int begin, int end)
         arr[new_position] = temp;
     }
 }
+
+void shell(int *arr, int begin, int end)
+{
+    // 3x+1 increment sequence:  1, 4, 13, 40, 121, 364, 1093, ...
+    int h = 1;
+    while (h < end/3) h = 3 * h + 1;
+    
+    while (h >= 1) {
+        // h-sort the array
+        for (int i = h; i < end; i++) {
+            for (int j = i; j >= h && arr[j] < arr[j-h]; j -= h) {
+                swap(arr[j], arr[j - h]);
+            }
+        }
+        
+        h /= 3;
+    }
+}

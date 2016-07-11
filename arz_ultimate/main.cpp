@@ -5,7 +5,7 @@
 #include "sorting_algs.h"
 #include "sorting_debug.h"
 
-#define NUM_OF_MEASUREMENTS 10
+#define NUM_OF_MEASUREMENTS 1000
 
 #include <iostream>
 #include <fstream>
@@ -183,12 +183,15 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
 }
 
 int main(int argc, const char * argv[]) {
-    string names[4] = { "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
-    sort_function algs[4] = { &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
+//    string names[4] = { "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
+//    sort_function algs[4] = { &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
     
-    int *sizes = create_sizes_linear(25, 1000, 25000);
+    string names[3] = { "Insertion", "Insertion-B", "Shell" };
+    sort_function algs[3] = { &insertion, &insertion_binary, &shell };
     
-    time_algorithms(random_array, sizes, 25, algs, names, 4);
+    int *sizes = create_sizes_linear(25, 10, 10000);
+    
+    time_algorithms(random_array, sizes, 25, algs, names, 3);
 
     delete[] sizes;
     
