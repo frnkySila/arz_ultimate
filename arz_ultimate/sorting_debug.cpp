@@ -12,12 +12,69 @@
 #include <set>
 using namespace std;
 
-void print_array(int *arr, int begin, int end)
+int *create_array(int size, sort_mode mode)
 {
-    for(int i = begin; i < end; i++) {
-        cout << arr[i] << " ";
+    int *arr = new int[size];
+    
+    switch (mode) {
+        case random_array:
+            srand((unsigned int)time(NULL));
+            
+            for(int i = 0; i < size; i++) {
+                arr[i] = rand();
+            }
+            break;
+        case random_array_small:
+            srand((unsigned int)time(NULL));
+            
+            for(int i = 0; i < size; i++) {
+                arr[i] = rand() % size;
+            }
+            break;
+        case completely_sorted:
+            for(int i = 0; i < size; i++) {
+                arr[i] = i;
+            }
+        case nearly_sorted: // order of N swaps
+            for(int i = 0; i < size; i++) {
+                arr[i] = i;
+            }
+            
+            srand((unsigned int)time(NULL));
+            
+            for(int i = 0; i < 2 * size; i++) {
+                int j = rand() % (size - 1);
+                swap(arr[j], arr[j + 1]);
+            }
+            break;
+        case reversed:
+            for(int i = 0; i < size; i++) {
+                arr[i] = size - i;
+            }
+            break;
+        case few_unique:
+            srand((unsigned int)time(NULL));
+            
+            for(int i = 0; i < size; i++) {
+                arr[i] = rand() % 10;
+            }
+            break;
     }
-    cout << endl;
+    
+    return arr;
+}
+
+int *create_sizes_linear(int num_sizes, int min, int max)
+{
+    int *arr = new int[num_sizes];
+    
+    int difference = (max - min) / num_sizes;
+    
+    for(int i = 0; i < num_sizes; i++) {
+        arr[i] = min + difference * i;
+    }
+    
+    return arr;
 }
 
 bool is_sorted(int *arr, int begin, int end)

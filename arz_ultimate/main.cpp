@@ -14,76 +14,7 @@
 #include <ctime>
 using namespace std;
 
-int inner_cycles, outer_cycles, comparisons, swaps;
-
 typedef void (*sort_function)(int*, int, int);
-
-enum sort_mode { random_array, random_array_small, completely_sorted, nearly_sorted, reversed, few_unique };
-
-int *create_array(int size, sort_mode mode)
-{
-    int *arr = new int[size];
-    
-    switch (mode) {
-        case random_array:
-            srand((unsigned int)time(NULL));
-            
-            for(int i = 0; i < size; i++) {
-                arr[i] = rand();
-            }
-            break;
-        case random_array_small:
-            srand((unsigned int)time(NULL));
-            
-            for(int i = 0; i < size; i++) {
-                arr[i] = rand() % size;
-            }
-            break;
-        case completely_sorted:
-            for(int i = 0; i < size; i++) {
-                arr[i] = i;
-            }
-        case nearly_sorted: // order of N swaps
-            for(int i = 0; i < size; i++) {
-                arr[i] = i;
-            }
-            
-            srand((unsigned int)time(NULL));
-            
-            for(int i = 0; i < 2 * size; i++) {
-                int j = rand() % (size - 1);
-                swap(arr[j], arr[j + 1]);
-            }
-            break;
-        case reversed:
-            for(int i = 0; i < size; i++) {
-                arr[i] = size - i;
-            }
-            break;
-        case few_unique:
-            srand((unsigned int)time(NULL));
-            
-            for(int i = 0; i < size; i++) {
-                arr[i] = rand() % 10;
-            }
-            break;
-    }
-    
-    return arr;
-}
-
-int *create_sizes_linear(int num_sizes, int min, int max)
-{
-    int *arr = new int[num_sizes];
-    
-    int difference = (max - min) / num_sizes;
-    
-    for(int i = 0; i < num_sizes; i++) {
-        arr[i] = min + difference * i;
-    }
-    
-    return arr;
-}
 
 long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
 {
@@ -105,7 +36,7 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
 {
     long long *results = new long long[num_sizes];
     
-    cout << "Testing on " << num_sizes << " sizes from " << sizes[0] << " to " << sizes[num_sizes - 1] << "..." << endl;
+    cout << "Testing " << NUM_OF_MEASUREMENTS << " times on " << num_sizes << " sizes from " << sizes[0] << " to " << sizes[num_sizes - 1] << "..." << endl;
     
     for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
         results[i] = 0;
@@ -183,15 +114,12 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
 }
 
 int main(int argc, const char * argv[]) {
-//    string names[4] = { "Bubble-T1", "Bubble-T2", "Insertion", "Insertion-B" };
-//    sort_function algs[4] = { &bubble_tier1, &bubble_tier2, &insertion, &insertion_binary };
+    string names[5] = { "Bubble-T2", "Insertion", "Insertion-B", "Shell", "Merge" };
+    sort_function algs[5] = { &bubble_tier2, &insertion, &insertion_binary, &shell, &merge_sort };
     
-    string names[3] = { "Insertion", "Insertion-B", "Shell" };
-    sort_function algs[3] = { &insertion, &insertion_binary, &shell };
+    int *sizes = create_sizes_linear(25, 100, 10000);
     
-    int *sizes = create_sizes_linear(25, 10, 10000);
-    
-    time_algorithms(random_array, sizes, 25, algs, names, 3);
+    time_algorithms(random_array, sizes, 25, algs, names, 5);
 
     delete[] sizes;
     
