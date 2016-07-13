@@ -15,5 +15,6 @@ void bubble_tier2(int *arr, int begin, int end);
 void insertion(int *arr, int begin, int end);
 void insertion_binary(int *arr, int begin, int end);
 void shell(int *arr, int begin, int end);
+void merge_sort(int *arr, int begin, int end);
 
 #endif /* defined(__arz_ultimate__sorting_algs__) */

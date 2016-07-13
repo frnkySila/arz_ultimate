@@ -127,16 +127,61 @@ void shell(int *arr, int begin, int end)
 {
     // 3x+1 increment sequence:  1, 4, 13, 40, 121, 364, 1093, ...
     int h = 1;
-    while (h < end/3) h = 3 * h + 1;
+    while(h < end/3) h = 3 * h + 1;
     
-    while (h >= 1) {
-        // h-sort the array
-        for (int i = h; i < end; i++) {
-            for (int j = i; j >= h && arr[j] < arr[j-h]; j -= h) {
+    while(h >= 1) {
+        for(int i = h; i < end; i++) {
+            for(int j = i; j >= h && arr[j] < arr[j-h]; j -= h) {
                 swap(arr[j], arr[j - h]);
             }
         }
         
         h /= 3;
     }
+}
+
+// Merge two sorted sub-arrays at [begin, mid) and [mid, end).
+void merge_array(int *arr, int *aux, int begin, int mid, int end)
+{
+    memcpy(aux + begin, arr + begin, (end - begin) * sizeof(int));
+
+    int i = begin, j = mid;
+    
+    for(int k = begin; k < end; k++) {
+        if(i >= mid) {
+            arr[k] = aux[j++];
+        }
+        else if(j >= end) {
+            arr[k] = aux[i++];
+        }
+        else {
+            if(aux[j] < aux[i]) {
+                arr[k] = aux[j++];
+            }
+            else {
+                arr[k] = aux[i++];
+            }
+        }
+    }
+}
+
+// Merge sort main procedure
+void merge_sort(int *arr, int *aux, int begin, int end)
+{
+    if (end - begin <= 1) return;
+    
+    int mid = begin + (end - begin) / 2;
+    
+    merge_sort(arr, aux, begin, mid);
+    merge_sort(arr, aux, mid, end);
+    merge_array(arr, aux, begin, mid, end);
+}
+
+void merge_sort(int *arr, int begin, int end)
+{
+    int *aux = new int[end - begin];
+    
+    merge_sort(arr, aux, begin, end);
+    
+    delete[] aux;
 }
