@@ -1,4 +1,4 @@
-set terminal png
+set terminal png size 800,600
 set output 'pidr.png'
 
 set key autotitle columnhead
