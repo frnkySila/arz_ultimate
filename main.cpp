@@ -15,14 +15,14 @@
 
 typedef void (*sort_function)(int*, int, int);
 
-long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
+long long time_algorithm_once(int *arr, size_t arr_size, sort_function f_sort)
 {
     int *newArr = new int[arr_size];
     memcpy(newArr, arr, arr_size * sizeof(int));
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    f_sort(newArr, 0, arr_size);
+    f_sort(newArr, 0, arr_size); // TODO: change all sort functions to accept size_t
     
     auto end_time = std::chrono::high_resolution_clock::now();
     
@@ -31,21 +31,21 @@ long long time_algorithm_once(int *arr, int arr_size, sort_function f_sort)
     return std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
 }
 
-long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_sort)
+long long *time_algorithm(int *arr, std::vector<size_t> sizes, sort_function f_sort)
 {
-    long long *results = new long long[num_sizes];
+    long long *results = new long long[sizes.size()];
 
-    std::cout << "Testing " << NUM_OF_MEASUREMENTS << " times on " << num_sizes << " sizes from " << sizes[0]
-              << " to " << sizes[num_sizes - 1] << "..." << std::endl;
+    std::cout << "Testing " << NUM_OF_MEASUREMENTS << " times on " << sizes.size() << " sizes from " << sizes[0]
+              << " to " << sizes[sizes.size() - 1] << "..." << std::endl;
     
-    for(int i = 0; i < num_sizes; i++) {
+    for(int i = 0; i < sizes.size(); i++) {
         results[i] = 0;
     }
     
     for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
         std::cout << i + 1 << std::flush;
         
-        for(int j = 0; j < num_sizes; j++) {
+        for(int j = 0; j < sizes.size(); j++) {
             results[j] += time_algorithm_once(arr, sizes[j], f_sort);
 
             std::cout << "." << std::flush;
@@ -56,27 +56,27 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
 
     std::cout << std::endl;
     
-    for(int i = 0; i < num_sizes; i++) {
+    for(int i = 0; i < sizes.size(); i++) {
         results[i] = results[i] / NUM_OF_MEASUREMENTS;
     }
     
     return results;
 }
 
-void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *fs_sort, std::string *algorithm_names, int num_algorithms)
+void time_algorithms(sort_mode mode, std::vector<size_t> sizes, sort_function *fs_sort, std::string *algorithm_names, int num_algorithms)
 {
     time_t start_time_total = time(NULL);
     
-    int *arr = create_array(sizes[num_sizes - 1], mode);
-    long long *results = new long long[num_sizes * num_algorithms];
+    int *arr = create_array(sizes[sizes.size() - 1], mode);
+    long long *results = new long long[sizes.size() * num_algorithms];
     
     for(int i = 0; i < num_algorithms; i++) {
         time_t start_time = time(NULL);
         
-        long long *current_results = time_algorithm(arr, sizes, num_sizes, fs_sort[i]);
+        long long *current_results = time_algorithm(arr, sizes, fs_sort[i]);
         
-        for(int j = 0; j < num_sizes; j++) {
-            results[i * num_sizes + j] = current_results[j];
+        for(int j = 0; j < sizes.size(); j++) {
+            results[i * sizes.size() + j] = current_results[j];
         }
         
         delete[] current_results;
@@ -97,11 +97,11 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
     
     f << std::endl;
     
-    for(int i = 0; i < num_sizes; i++) {
+    for(int i = 0; i < sizes.size(); i++) {
         f << sizes[i];
         
         for(int j = 0; j < num_algorithms; j++) {
-            f << " " << results[j * num_sizes + i];
+            f << " " << results[j * sizes.size() + i];
         }
         
         f << std::endl;
@@ -116,12 +116,8 @@ void time_algorithms(sort_mode mode, int *sizes, int num_sizes, sort_function *f
 int main(int argc, const char * argv[]) {
     std::string names[5] = { "Bubble-T2", "Insertion", "Insertion-B", "Shell", "Merge" };
     sort_function algs[5] = { &bubble_tier2, &insertion, &insertion_binary, &shell, &merge_sort };
-    
-    int *sizes = create_sizes_linear(25, 100, 10000);
-    
-    time_algorithms(random_array, sizes, 25, algs, names, 5);
 
-    delete[] sizes;
+    time_algorithms(random_array, create_sizes_linear(25, 100, 10000), algs, names, 5);
     
     return 0;
 }

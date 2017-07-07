@@ -11,7 +11,7 @@
 #include <iostream>
 #include <set>
 
-int *create_array(int size, sort_mode mode)
+int *create_array(size_t size, sort_mode mode)
 {
     int *arr = new int[size];
     
@@ -27,7 +27,7 @@ int *create_array(int size, sort_mode mode)
             srand((unsigned int)time(NULL));
             
             for(int i = 0; i < size; i++) {
-                arr[i] = rand() % size;
+                arr[i] = rand() % (int)size;
             }
             break;
         case completely_sorted:
@@ -42,13 +42,13 @@ int *create_array(int size, sort_mode mode)
             srand((unsigned int)time(NULL));
             
             for(int i = 0; i < 2 * size; i++) {
-                int j = rand() % (size - 1);
+                int j = rand() % (int)(size - 1);
                 std::swap(arr[j], arr[j + 1]);
             }
             break;
         case reversed:
             for(int i = 0; i < size; i++) {
-                arr[i] = size - i;
+                arr[i] = (int)size - i;
             }
             break;
         case few_unique:
@@ -63,17 +63,17 @@ int *create_array(int size, sort_mode mode)
     return arr;
 }
 
-int *create_sizes_linear(int num_sizes, int min, int max)
+std::vector<size_t> create_sizes_linear(size_t num_sizes, int min, int max)
 {
-    int *arr = new int[num_sizes];
+    std::vector<size_t> sizes(num_sizes);
     
-    int difference = (max - min) / num_sizes;
+    size_t difference = (max - min) / num_sizes;
     
     for(int i = 0; i < num_sizes; i++) {
-        arr[i] = min + difference * i;
+        sizes[i] = min + difference * i;
     }
     
-    return arr;
+    return sizes;
 }
 
 bool is_sorted(int *arr, int begin, int end)
