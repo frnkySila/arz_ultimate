@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <set>
-using namespace std;
 
 int *create_array(int size, sort_mode mode)
 {
@@ -44,7 +43,7 @@ int *create_array(int size, sort_mode mode)
             
             for(int i = 0; i < 2 * size; i++) {
                 int j = rand() % (size - 1);
-                swap(arr[j], arr[j + 1]);
+                std::swap(arr[j], arr[j + 1]);
             }
             break;
         case reversed:
@@ -90,7 +89,7 @@ bool is_sorted(int *arr, int begin, int end)
 
 bool same_elements(int *arr1, int begin1, int *arr2, int begin2, int length)
 {
-    set<int> elems1{}, elems2{};
+    std::set<int> elems1{}, elems2{};
     
     for(int i = begin1; i < begin1 + length; i++) {
         elems1.insert(arr1[i]);
