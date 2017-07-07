@@ -9,8 +9,6 @@
 #include "sorting_algs.h"
 
 #include <iostream>
-using namespace std;
-
 
 void bubble_classic(int *arr, int begin, int end)
 {
@@ -19,7 +17,7 @@ void bubble_classic(int *arr, int begin, int end)
         for(int j = begin; j < end - i; j++) {
             if(arr[j] > arr[j+1])
             {
-                swap(arr[j], arr[j+1]);
+                std::swap(arr[j], arr[j+1]);
             }
         }
     }
@@ -34,7 +32,7 @@ void bubble_tier1(int *arr, int begin, int end)
         for(int j = begin; j < end - i; j++) {
             if(arr[j] > arr[j+1])
             {
-                swap(arr[j], arr[j+1]);
+                std::swap(arr[j], arr[j+1]);
                 
                 already_sorted = false;
             }
@@ -55,7 +53,7 @@ void bubble_tier2(int *arr, int begin, int end)
         for(int j = begin; j < last_swap; j++) {
             if(arr[j] > arr[j+1])
             {
-                swap(arr[j], arr[j+1]);
+                std::swap(arr[j], arr[j+1]);
                 
                 new_last_swap = j;
             }
@@ -132,7 +130,7 @@ void shell(int *arr, int begin, int end)
     while(h >= 1) {
         for(int i = h; i < end; i++) {
             for(int j = i; j >= h && arr[j] < arr[j-h]; j -= h) {
-                swap(arr[j], arr[j - h]);
+                std::swap(arr[j], arr[j - h]);
             }
         }
         
