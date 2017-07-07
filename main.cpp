@@ -38,7 +38,7 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
     
     cout << "Testing " << NUM_OF_MEASUREMENTS << " times on " << num_sizes << " sizes from " << sizes[0] << " to " << sizes[num_sizes - 1] << "..." << endl;
     
-    for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
+    for(int i = 0; i < num_sizes; i++) {
         results[i] = 0;
     }
     
@@ -56,7 +56,7 @@ long long *time_algorithm(int *arr, int *sizes, int num_sizes, sort_function f_s
     
     cout << endl;
     
-    for(int i = 0; i < NUM_OF_MEASUREMENTS; i++) {
+    for(int i = 0; i < num_sizes; i++) {
         results[i] = results[i] / NUM_OF_MEASUREMENTS;
     }
     
